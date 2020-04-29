@@ -60,6 +60,7 @@
                                 <th>Borrowed DateTime</th>
                                 <th>Return DateTime</th>
                                 <th>Fine Incurred for that Borrow</th>
+                                <th>Return</th>
                             </tr>
                         <?php 
                             while($row = $res->fetch_assoc()){
@@ -70,7 +71,6 @@
                                 echo("<td>" . $row['COPYNO'] . "</td>");
                                 echo("<td>" . $row['LIBID'] . "</td>");
                                 echo("<td>" . $row['BDTIME'] . "</td>");
-                                // echo("<td>" . $row['RDTIME'] . "</td>");
                                 $borrow = $row['BDTIME'];
                                 $return = $row['RDTIME'];
                                 if(is_null($return)){
@@ -82,6 +82,19 @@
                                 }
                                 $fine = computeFine($borrow, $return);
                                 echo("<td>$" . round($fine, 2) . "</td>");
+                                $returnLinkEnding = "?BORNUMBER=".$row['BORNUMBER'];
+                                echo("<td>");
+                                if(is_null($row['RDTIME'])){
+                                ?>
+                                    <div class="returnButton">
+                                        <a href="reader_returnDocument.php<?php echo($returnLinkEnding);?>">
+                                            Return
+                                        </a>
+                                    </div>
+                                    
+                                <?php
+                                }
+                                echo("</td>");
                                 echo("</tr>");
                             }
                             echo("</table>");

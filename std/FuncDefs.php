@@ -56,6 +56,14 @@
 		return(TRUE);
 	}
 
+	function returnDocumentCopy($BORNUMBER){
+		$query = "UPDATE `BORROWS` SET `RDTIME` = NOW() WHERE `BORROWS`.`BORNUMBER` = $BORNUMBER;";
+		$qd = mysqliOOP();
+		$result = $qd->query($query);
+		mysqliCloseOOP($qd);
+		return;
+	}
+
     function connectDB(&$db, &$fag_c)
     {
 		global $hostname, $username, $password, $project;
@@ -111,7 +119,7 @@
 	}
 	
 	function GET($fieldname, &$flag_empty, &$flag_isset){
-		global $db;
+		// global $db;
 		$flag_empty=TRUE;
 		$flag_isset=FALSE;
 		$flag_isset=isset($_GET[$fieldname]);
@@ -127,7 +135,7 @@
 			//echo "<br><br>$fieldname is empty.";
 			return;
 		}
-		$v=mysqli_real_escape_string($db, $v);
+		// $v=mysqli_real_escape_string($db, $v);
 		$flag_empty=FALSE;
 		//echo "$fieldname is $v.<br>";
 		//echo($v);

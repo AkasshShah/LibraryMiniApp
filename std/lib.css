@@ -19,7 +19,7 @@ a{
 	color: inherit;
 }
 div.container{
-	width: 800px;
+	width: 960px;
 	/*height: 610px;*/
 	margin: 35px auto;
 }
@@ -116,6 +116,14 @@ center{
 	position: fixed;
 	right: 10px;
 	top: auto;
+	text-decoration: none;
+	border: 1px solid rgb(128, 128, 128);;
+	/* background-color: rgb(0, 214, 255); */
+	padding: 3px 20px;
+	border-radius: 2px;
+}
+
+.returnButton{
 	text-decoration: none;
 	border: 1px solid rgb(128, 128, 128);;
 	/* background-color: rgb(0, 214, 255); */
