@@ -52,7 +52,7 @@
                         else{?>
                         <table>
                             <tr>
-                                <th>Borrowing Number</th>
+                                <!-- <th>Borrowing Number</th> -->
                                 <th>Reader ID</th>
                                 <th>Document ID</th>
                                 <th>Copy Number</th>
@@ -65,7 +65,7 @@
                         <?php 
                             while($row = $res->fetch_assoc()){
                                 echo("<tr>");
-                                echo("<td>" . $row['BORNUMBER'] . "</td>");
+                                // echo("<td>" . $row['BORNUMBER'] . "</td>");
                                 echo("<td>" . $row['READERID'] . "</td>");
                                 echo("<td>" . $row['DOCID'] . "</td>");
                                 echo("<td>" . $row['COPYNO'] . "</td>");
