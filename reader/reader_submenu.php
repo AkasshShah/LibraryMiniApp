@@ -53,7 +53,7 @@
                         <table>
                             <tr>
                                 <!-- <th>Borrowing Number</th> -->
-                                <th>Reader ID</th>
+                                <!-- <th>Reader ID</th> -->
                                 <th>Document ID</th>
                                 <th>Copy Number</th>
                                 <th>Library ID</th>
@@ -66,7 +66,7 @@
                             while($row = $res->fetch_assoc()){
                                 echo("<tr>");
                                 // echo("<td>" . $row['BORNUMBER'] . "</td>");
-                                echo("<td>" . $row['READERID'] . "</td>");
+                                // echo("<td>" . $row['READERID'] . "</td>");
                                 echo("<td>" . $row['DOCID'] . "</td>");
                                 echo("<td>" . $row['COPYNO'] . "</td>");
                                 echo("<td>" . $row['LIBID'] . "</td>");
