@@ -40,7 +40,7 @@
                     $result = $ms->query($query);
                 ?>
                 <div class= "table">
-                    <h3>Top 10 Borrowered Books</h3>
+                    <h3>Top 10 Borrowers</h3>
                     <table>
                         <tr>
                             <th>Reader ID</th>
@@ -64,7 +64,7 @@
                     </table>
                 </div>
                 <div class= "table">
-                    <h3>Top 10 Borrowers</h3>
+                    <h3>Top 10 Borrowered Books</h3>
                     <table>
                         <tr>
                             <th>Document ID</th>

@@ -74,7 +74,7 @@
                     <input type="submit" value="Check Status">
                 </form>
                 <form id= "admin_branchInfo" name= "admin_branchInfo" method= "post" action= "admin_branchInfo.php">
-                    <h3>Check Status Of A Document Copy In A Library</h3>
+                    <h3>Print Library Branch Information</h3>
                     <label>Library ID:</label>
                     <input type="number" name="branch_libID" id="branch_libID" required = "required" min = "1" step= "1">
                     <input type="submit" value="Print Branch Information">
