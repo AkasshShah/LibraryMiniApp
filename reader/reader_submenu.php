@@ -40,8 +40,7 @@
                 <h2>Library System</h2>
                 <h3>Reader Submenu</h3>
                 <div class="table">
-                    <h3>All the books you have borrowed and the fines for those borrows:</h3>
-
+                    <h3>All the Documents you have borrowed and the fines for those borrows:</h3>
                     <?php
                         $ms = mysqliOOP();
                         $query = "SELECT * FROM `BORROWS` WHERE `READERID`=" . $_SESSION["user"] .";";
@@ -99,7 +98,51 @@
                             }
                             echo("</table>");
                         }
-                        mysqliCloseOOP($ms);
+                        $query2 = "SELECT * FROM `RESERVES` WHERE `READERID`=" . $_SESSION["user"] .";";
+                        $res2 = $ms->query($query2);
+                    ?>
+                </div>
+                <div class= "table">
+                    <h3>All the Documents you have reserved:</h3>
+                    <?php
+                    if($res2->num_rows <= 0){
+                        echo("You haven't reserved any documents yet");
+                    }
+                    else{
+                    ?>
+                        <table>
+                            <tr>
+                                <!-- <th>Reservation Number</th> -->
+                                <!-- <th>Reader ID</th> -->
+                                <th>Document ID</th>
+                                <th>Copy Number</th>
+                                <th>Library ID</th>
+                                <th>Location Of The Copy</th>
+                                <th>Reservation DateTime</th>
+                                <th>Drop</th>
+                                <th>Borrow</th>
+                            </tr>
+                            <?php
+                                while($row = $res2->fetch_assoc()){
+                                    echo("<tr>");
+                                    // echo("<td>" . $row['RESNUMBER'] . "</td>");
+                                    // echo("<td>" . $row['READERID'] . "</td>");
+                                    echo("<td>" . $row['DOCID'] . "</td>");
+                                    echo("<td>" . $row['COPYNO'] . "</td>");
+                                    echo("<td>" . $row['LIBID'] . "</td>");
+                                    echo("<td>" . getLocationOfCopy($row['DOCID'], $row['COPYNO'], $row['LIBID']) . "</td>");
+                                    echo("<td>" . $row['DTIME'] . "</td>");
+                                    $dropLinkEnding = "?RESNUMBER=".$row['RESNUMBER']."&action=drop";
+                                    $borLinkEnding = "?RESNUMBER=".$row['RESNUMBER']."&action=bor";
+                                    ?>
+                                    <td><div class="returnButton"><a href="reader_reservationDropBorrow.php<?php echo($dropLinkEnding);?>">Drop</a></div></td>
+                                    <td><div class="returnButton"><a href="reader_reservationDropBorrow.php<?php echo($borLinkEnding);?>">Borrow</a></div></td>
+                                    <?php
+                                }
+                            ?>
+                        </table>
+                    <?php
+                    }
                     ?>
                 </div>
                 <form id= "reader_searchDocument" name= "reader_searchDocument" method= "post" action= "reader_searchDocument.php">
@@ -124,7 +167,18 @@
                     <input type="number" name="bor_libid" id="bor_libid" required = "required" min = "1" step= "1">
                     <input type="submit" value="Borrow">
                 </form>
+                <form id= "reader_reserveDocument" name= "reader_reserveDocument" method = "post" action = "reader_reserveDocument.php">
+                    <h3>Reserve A Document</h3>
+                    <label>Document ID:</label>
+                    <input type="number" name="res_docid" id="res_docid" required = "required" min = "1" step= "1">
+                    <label>Copy Number:</label>
+                    <input type="number" name="res_copyno" id="res_copyno" required = "required" min = "1" step= "1">
+                    <label>Library ID:</label>
+                    <input type="number" name="res_libid" id="res_libid" required = "required" min = "1" step= "1">
+                    <input type="submit" value="Reserve">
+                </form>
             </div>
         </div>
+        <?php mysqliCloseOOP($ms);?>
     </body>
 </html>

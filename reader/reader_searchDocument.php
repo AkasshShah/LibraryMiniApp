@@ -24,7 +24,7 @@
         </div>
         <div class = "container">
             <div class = "main">
-                <h2>Checking Copy Status</h2>
+                <h2>Searching for Documents</h2>
                 <?php
                     $srchCrit = POST("srchCrit", $flag_empty, $flag_isset);
                     if(!$flag_isset || $flag_empty){

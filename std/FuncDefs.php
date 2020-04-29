@@ -18,6 +18,17 @@
 		return;
 	}
 
+	function getLocationOfCopy($docid, $copyno, $libid){
+		$qd = mysqliOOP();
+		$query = "SELECT * FROM `COPY` WHERE `DOCID`=$docid AND `COPYNO`=$copyno AND `LIBID`=$libid;";
+		$result = $qd->query($query);
+		while($row = $result->fetch_assoc()){
+			$rtn = $row['POSITION'];
+		}
+		mysqliCloseOOP($qd);
+		return($rtn);
+	}
+
 	function isAdminLoggedIn(){
 		return(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] && isset($_SESSION["user_type"]) && strcmp($_SESSION["user_type"], "admin") == 0);
 	}
@@ -56,10 +67,58 @@
 		return(TRUE);
 	}
 
+	function isCopyReservable($bor_docid, $bor_copyno, $bor_libid){
+		$qd = mysqliOOP();
+		$query1 = "SELECT * FROM `BORROWS` WHERE `DOCID`=$bor_docid AND `COPYNO`=$bor_copyno AND `LIBID`=$bor_libid AND `RDTIME` IS NULL;";
+		$result = $qd->query($query1);
+		if($result->num_rows > 0){
+			return(FALSE);
+		}
+		$query2 = "SELECT * FROM `RESERVES` WHERE `DOCID`=$bor_docid AND `COPYNO`=$bor_copyno AND `LIBID`=$bor_libid;";
+		$result2 = $qd->query($query2);
+		if($result2->num_rows > 0){
+			return(FALSE);
+		}
+		mysqliCloseOOP($qd);
+		return(TRUE);
+	}
+
+	function reserveCopy($res_docid, $res_copyno, $res_libid, $readerID){
+		$qd = mysqliOOP();
+		$insertQuery = "INSERT INTO `RESERVES` (`RESNUMBER`, `READERID`, `DOCID`, `COPYNO`, `LIBID`, `DTIME`) VALUES (NULL, '$readerID', '$res_docid', '$res_copyno', '$res_libid', NOW());;";
+		$insertResult = $qd->query($insertQuery);
+		mysqliCloseOOP($qd);
+		return;
+	}
+
 	function returnDocumentCopy($BORNUMBER){
 		$query = "UPDATE `BORROWS` SET `RDTIME` = NOW() WHERE `BORROWS`.`BORNUMBER` = $BORNUMBER;";
 		$qd = mysqliOOP();
 		$result = $qd->query($query);
+		mysqliCloseOOP($qd);
+		return;
+	}
+
+	function makeReservationIntoBorrowing($RESNUMBER){
+		$qd = mysqliOOP();
+		$lookupQuery = "SELECT * FROM `RESERVES` WHERE `RESNUMBER`=$RESNUMBER;";
+		$res = $qd->query($lookupQuery);
+		if($res){
+			$row = $res->fetch_row();
+			$readerID = $row[1];
+			$bor_docid = $row[2];
+			$bor_copyno = $row[3];
+			$bor_libid = $row[4];
+			borrowCopy($bor_docid, $bor_copyno, $bor_libid, $readerID);
+		}
+		mysqliCloseOOP($qd);
+		return;
+	}
+
+	function dropReservation($RESNUMBER){
+		$qd = mysqliOOP();
+		$deleteQuery = "DELETE FROM `RESERVES` WHERE `RESNUMBER`=$RESNUMBER;";
+		$result = $qd->query($deleteQuery);
 		mysqliCloseOOP($qd);
 		return;
 	}

@@ -24,19 +24,19 @@
         </div>
         <div class = "container">
             <div class = "main">
-                <h2>Handling Borrowing</h2>
+                <h2>Handling Reservation</h2>
                 <?php
-                    $bor_docid = POST("bor_docid", $flag_empty, $flag_isset);
+                    $res_docid = POST("res_docid", $flag_empty, $flag_isset);
                     if(!$flag_isset || $flag_empty){
                         // header("Location: ../index.php?auth=1");
                         exit();
                     }
-                    $bor_copyno = POST("bor_copyno", $flag_empty, $flag_isset);
+                    $res_copyno = POST("res_copyno", $flag_empty, $flag_isset);
                     if(!$flag_isset || $flag_empty){
                         // header("Location: ../index.php?auth=1");
                         exit();
                     }
-                    $bor_libid = POST("bor_libid", $flag_empty, $flag_isset);
+                    $res_libid = POST("res_libid", $flag_empty, $flag_isset);
                     if(!$flag_isset || $flag_empty){
                         // header("Location: ../index.php?auth=1");
                         exit();
@@ -44,12 +44,12 @@
                 ?>
                 <?php
                     $readerID = $_SESSION["user"];
-                    if(isCopyBorrowable($bor_docid, $bor_copyno, $bor_libid, $readerID)){
-                        borrowCopy($bor_docid, $bor_copyno, $bor_libid, $readerID);
+                    if(isCopyReservable($res_docid, $res_copyno, $res_libid)){
+                        reserveCopy($res_docid, $res_copyno, $res_libid, $readerID);
                         echo("<h3>The Document Copy Now Has Been Borrowed</h3>");
                     }
                     else{
-                        echo("<h3>Cannot borrow the Document Copy since it is currently borrowed or reserved</h3>");
+                        echo("<h3>Cannot reserve the Document Copy since it is currently borrowed or reserved</h3>");
                     }
                 ?>
             </div>

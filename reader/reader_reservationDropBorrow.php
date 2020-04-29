@@ -25,17 +25,28 @@
         </div>
         <div class = "container">
             <div class = "main">
-                <h2>Returning Document Copy</h2>
+                <h2>Handling Reservation</h2>
                 <?php
-                    $BORNUMBER = GET("BORNUMBER", $flag_empty, $flag_isset);
+                    $RESNUMBER = GET("RESNUMBER", $flag_empty, $flag_isset);
                     if(!$flag_isset || $flag_empty){
                         // header("Location: ../index.php?auth=1");
+                        echo("here1");
+                        exit();
+                    }
+                    $action = GET("action", $flag_empty, $flag_isset);
+                    if(!$flag_isset || $flag_empty){
+                        // header("Location: ../index.php?auth=1");
+                        echo("here2");
                         exit();
                     }
                 ?>
                 <?php
-                    returnDocumentCopy($BORNUMBER);
-
+                    if($action == "bor"){
+                        makeReservationIntoBorrowing($RESNUMBER);
+                    }
+                    else{
+                        dropReservation($RESNUMBER);
+                    }
                 ?>
             </div>
         </div>
