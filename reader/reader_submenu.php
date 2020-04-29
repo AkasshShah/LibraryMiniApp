@@ -99,6 +99,16 @@
                     <input type="text" name="fn" id="fn" required = "required" maxlength= "25">
                     <input type= "submit" value= "Search">
                 </form>
+                <form id= "reader_borrowDocument" name= "reader_borrowDocument" method = "post" action = "reader_borrowDocument.php">
+                    <h3>Borrow A Document</h3>
+                    <label>Document ID:</label>
+                    <input type="number" name="bor_docid" id="bor_docid" required = "required" min = "1" step= "1">
+                    <label>Copy Number:</label>
+                    <input type="number" name="bor_copyno" id="bor_copyno" required = "required" min = "1" step= "1">
+                    <label>Library ID:</label>
+                    <input type="number" name="bor_libid" id="bor_libid" required = "required" min = "1" step= "1">
+                    <input type="submit" value="Borrow">
+                </form>
             </div>
         </div>
     </body>

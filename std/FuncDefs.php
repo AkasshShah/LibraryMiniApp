@@ -26,8 +26,34 @@
 		return(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] && isset($_SESSION["user_type"]) && strcmp($_SESSION["user_type"], "reader") == 0);
 	}
 
-	function logoutButton(){
-		
+	function borrowCopy($bor_docid, $bor_copyno, $bor_libid, $readerID){
+		$qd = mysqliOOP();
+		$deleteQuery = "DELETE FROM `RESERVES` WHERE `DOCID`=$bor_docid AND `COPYNO`=$bor_copyno AND `LIBID`=$bor_libid AND `READERID`=$readerID;";
+		$deleteResult = $qd->query($deleteQuery);
+		$insertQuery = "INSERT INTO `BORROWS` (`BORNUMBER`, `READERID`, `DOCID`, `COPYNO`, `LIBID`, `BDTIME`, `RDTIME`) VALUES (NULL, '$readerID', '$bor_docid', '$bor_copyno', '$bor_libid', NOW(), NULL);";
+		$insertResult = $qd->query($insertQuery);
+		mysqliCloseOOP($qd);
+		return;
+	}
+
+	function isCopyBorrowable($bor_docid, $bor_copyno, $bor_libid, $readerID){
+		$qd = mysqliOOP();
+		$query1 = "SELECT * FROM `BORROWS` WHERE `DOCID`=$bor_docid AND `COPYNO`=$bor_copyno AND `LIBID`=$bor_libid AND `RDTIME` IS NULL;";
+		$result = $qd->query($query1);
+		if($result->num_rows > 0){
+			return(FALSE);
+		}
+		$query2 = "SELECT * FROM `RESERVES` WHERE `DOCID`=$bor_docid AND `COPYNO`=$bor_copyno AND `LIBID`=$bor_libid;";
+		$query3 = "SELECT * FROM `RESERVES` WHERE `DOCID`=$bor_docid AND `COPYNO`=$bor_copyno AND `LIBID`=$bor_libid AND `READERID`=$readerID;";
+		$result2 = $qd->query($query2);
+		if($result2->num_rows > 0){
+			$result3 = $qd->query($query3);
+			if($result3->num_rows <= 0){
+				return(FALSE);
+			}
+		}
+		mysqliCloseOOP($qd);
+		return(TRUE);
 	}
 
     function connectDB(&$db, &$fag_c)
