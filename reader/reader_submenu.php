@@ -91,11 +91,13 @@
                 </div>
                 <form id= "reader_searchDocument" name= "reader_searchDocument" method= "post" action= "reader_searchDocument.php">
                     <h3>Search Document by Document ID, Title or publisher</h3>
+                    <label>Search by:</label>
                     <select id= "srchCrit" name= "srchCrit">
                         <option value= "DOCID">Document ID</option>
                         <option value= "TITLE">Document Title</option>
                         <option value= "PUBNAME">Publisher Name</option>
                     </select>
+                    <label>Text:</label>
                     <input type="text" name="fn" id="fn" required = "required" maxlength= "25">
                     <input type= "submit" value= "Search">
                 </form>
